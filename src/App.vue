@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto flex flex-col items-center bg-gray-100 p-4">
     <app-loader :active="false"></app-loader>
+
     <div class="container">
       <create-ticker
         :tickers="allTickers"
@@ -8,27 +9,11 @@
         :isTickerExists="isTickerExists"
       ></create-ticker>
 
-      <div v-if="page > 1 || hasNextPage">
-        <hr class="w-full border-t border-gray-600 my-4" />
-
-        <button
-          v-if="page > 1"
-          type="button"
-          class="my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          @click="goToPrevPage"
-        >
-          Назад
-        </button>
-
-        <button
-          v-if="hasNextPage"
-          type="button"
-          class="ml-5 my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          @click="goToNextPage"
-        >
-          Вперед
-        </button>
-      </div>
+      <app-pagination
+        :items-per-page="itemsPerPage"
+        :total-items-count="filteredTickers.length"
+        v-model="page"
+      ></app-pagination>
 
       <hr class="w-full border-t border-gray-600 my-4" />
 
@@ -151,8 +136,8 @@ import {
 } from "./api";
 import CreateTicker from "@/components/CreateTicker";
 import AppLoader from "@/components/AppLoader";
+import AppPagination from "@/components/AppPagination";
 
-const TICKERS_PER_PAGE = 6;
 const TICKERS_STORE_KEY = "tickers";
 const GET_ALL_TICKERS_URL =
   "https://min-api.cryptocompare.com/data/all/coinlist?summary=true";
@@ -162,7 +147,8 @@ export default {
 
   components: {
     CreateTicker,
-    AppLoader
+    AppLoader,
+    AppPagination
   },
 
   data() {
@@ -175,7 +161,8 @@ export default {
       selectedTicker: null,
       selectedTickerGraph: [],
 
-      page: 1
+      page: 1,
+      itemsPerPage: 6
     };
   },
 
@@ -203,14 +190,10 @@ export default {
     },
 
     pagePinnedTickers() {
-      const from = (this.page - 1) * TICKERS_PER_PAGE;
-      const to = this.page * TICKERS_PER_PAGE;
+      const from = (this.page - 1) * this.itemsPerPage;
+      const to = this.page * this.itemsPerPage;
 
       return this.filteredTickers.slice(from, to);
-    },
-
-    hasNextPage() {
-      return this.filteredTickers.length > this.page * TICKERS_PER_PAGE;
     },
 
     normalizedGraph() {
@@ -359,14 +342,6 @@ export default {
 
     clearGraph() {
       this.selectedTickerGraph = [];
-    },
-
-    goToNextPage() {
-      this.page = this.page + 1;
-    },
-
-    goToPrevPage() {
-      this.page = this.page - 1;
     },
 
     saveTickers() {
