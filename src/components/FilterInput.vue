@@ -20,10 +20,6 @@
 <script>
 export default {
   props: ["modelValue"],
-  emits: ["update:modelValue"],
-
-  created() {
-    console.log(this.modelValue);
-  }
+  emits: ["update:modelValue"]
 };
 </script>
