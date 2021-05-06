@@ -17,21 +17,7 @@
 
       <hr class="w-full border-t border-gray-600 my-4" />
 
-      <div class="max-w-xs">
-        <label for="filter" class="block text-sm font-medium text-gray-700"
-          >Фильтр</label
-        >
-        <div class="mt-1 relative rounded-md shadow-md">
-          <input
-            type="text"
-            name="filter"
-            id="filter"
-            class="block w-full pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md"
-            placeholder="Например DOGE"
-            v-model="tickerFilterInput"
-          />
-        </div>
-      </div>
+      <filter-input v-model="tickerFilterInput" />
 
       <template v-if="pinnedTickers.length">
         <hr class="w-full border-t border-gray-600 my-4" />
@@ -137,6 +123,7 @@ import {
 import CreateTicker from "@/components/CreateTicker";
 import AppLoader from "@/components/AppLoader";
 import AppPagination from "@/components/AppPagination";
+import FilterInput from "@/components/FilterInput";
 
 const TICKERS_STORE_KEY = "tickers";
 const GET_ALL_TICKERS_URL =
@@ -148,7 +135,8 @@ export default {
   components: {
     CreateTicker,
     AppLoader,
-    AppPagination
+    AppPagination,
+    FilterInput
   },
 
   data() {
