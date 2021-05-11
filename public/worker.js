@@ -5,19 +5,19 @@ const URL = `wss://streamer.cryptocompare.com/v2?api_key=${API_KEY}`;
 const OUTCOME_MESSAGE_TYPES = {
   SOCKET_MESSAGE: "SOCKET_MESSAGE",
   SOCKET_OPEN: "SOCKET_OPEN",
-  SOCKET_CLOSE: "SOCKET_CLOSE"
+  SOCKET_CLOSE: "SOCKET_CLOSE",
 };
 
 const INCOME_MESSAGE_TYPES = {
   TICKER_SUBSCRIBE: "TICKER_SUBSCRIBE",
-  TICKER_UNSUBSCRIBE: "TICKER_UNSUBSCRIBE"
+  TICKER_UNSUBSCRIBE: "TICKER_UNSUBSCRIBE",
 };
 
 self.addEventListener("connect", handleConnect, false);
 
 const state = {
   socket: null,
-  isSocketOpened: false
+  isSocketOpened: false,
 };
 
 function handleConnect(event) {
@@ -31,7 +31,7 @@ function handleConnect(event) {
 function handleMessage(event) {
   const handlerByEventType = {
     [INCOME_MESSAGE_TYPES.TICKER_SUBSCRIBE]: handleSubscribeToTicker,
-    [INCOME_MESSAGE_TYPES.TICKER_UNSUBSCRIBE]: handleUnsubscribeFromTicker
+    [INCOME_MESSAGE_TYPES.TICKER_UNSUBSCRIBE]: handleUnsubscribeFromTicker,
   };
 
   const handler = handlerByEventType[event.data.type];
@@ -44,15 +44,15 @@ function subscribeToSocket(source) {
   state.isSocketOpened = true;
   state.socket = new WebSocket(URL);
 
-  state.socket.addEventListener("message", event => {
+  state.socket.addEventListener("message", (event) => {
     const data = JSON.parse(event.data);
     sendToClients(source, {
       type: OUTCOME_MESSAGE_TYPES.SOCKET_MESSAGE,
-      data
+      data,
     });
   });
 
-  state.socket.addEventListener("open", event => {
+  state.socket.addEventListener("open", (event) => {
     sendToClients(source, { type: OUTCOME_MESSAGE_TYPES.SOCKET_OPEN });
   });
 
@@ -69,14 +69,14 @@ function sendToClients(source, data) {
 function handleSubscribeToTicker({ tickers, currency = "USD" }) {
   sendWebSocketData({
     action: "SubAdd",
-    subs: tickers.map(ticker => `5~CCCAGG~${ticker}~${currency}`)
+    subs: tickers.map((ticker) => `5~CCCAGG~${ticker}~${currency}`),
   });
 }
 
 function handleUnsubscribeFromTicker({ tickers, currency = "USD" }) {
   sendWebSocketData({
     action: "SubRemove",
-    subs: tickers.map(ticker => `5~CCCAGG~${ticker}~${currency}`)
+    subs: tickers.map((ticker) => `5~CCCAGG~${ticker}~${currency}`),
   });
 }
 

@@ -5,7 +5,26 @@
     <button
       v-if="page > 1"
       type="button"
-      class="my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      class="
+        my-4
+        inline-flex
+        items-center
+        py-2
+        px-4
+        border border-transparent
+        shadow-sm
+        text-sm
+        leading-4
+        font-medium
+        rounded-full
+        text-white
+        bg-gray-600
+        hover:bg-gray-700
+        transition-colors
+        duration-300
+        focus:outline-none
+        focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
+      "
       @click="goToPrevPage"
     >
       Назад
@@ -14,7 +33,27 @@
     <button
       v-if="hasNextPage"
       type="button"
-      class="ml-5 my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      class="
+        ml-5
+        my-4
+        inline-flex
+        items-center
+        py-2
+        px-4
+        border border-transparent
+        shadow-sm
+        text-sm
+        leading-4
+        font-medium
+        rounded-full
+        text-white
+        bg-gray-600
+        hover:bg-gray-700
+        transition-colors
+        duration-300
+        focus:outline-none
+        focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
+      "
       @click="goToNextPage"
     >
       Вперед
@@ -39,8 +78,8 @@ export default {
       },
       set(value) {
         this.$emit("update:modelValue", value);
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -50,7 +89,7 @@ export default {
 
     goToPrevPage() {
       this.page = this.page - 1;
-    }
-  }
+    },
+  },
 };
 </script>

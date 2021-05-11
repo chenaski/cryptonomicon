@@ -1,6 +1,17 @@
 <template>
   <div
-    class="fixed w-100 h-100 opacity-80 bg-purple-800 inset-0 z-50 flex items-center justify-center"
+    class="
+      fixed
+      w-100
+      h-100
+      opacity-80
+      bg-purple-800
+      inset-0
+      z-50
+      flex
+      items-center
+      justify-center
+    "
     :class="{ hidden: !active }"
   >
     <svg
@@ -28,6 +39,6 @@
 
 <script>
 export default {
-  props: ["active"]
+  props: ["active"],
 };
 </script>

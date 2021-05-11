@@ -2,10 +2,10 @@ module.exports = {
   purge: { content: ["./public/**/*.html", "./src/**/*.vue"] },
   darkMode: false,
   theme: {
-    extend: {}
+    extend: {},
   },
   variants: {
-    extend: {}
+    extend: {},
   },
-  plugins: [require("@tailwindcss/forms")]
+  plugins: [require("@tailwindcss/forms")],
 };

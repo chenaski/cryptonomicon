@@ -4,10 +4,10 @@ worker.port.start();
 
 const tickersHandlers = new Map();
 const btcUsdRate = {
-  value: null
+  value: null,
 };
 
-const postMessage = data => {
+const postMessage = (data) => {
   worker.port.postMessage(data);
 };
 const transport = {
@@ -16,7 +16,7 @@ const transport = {
   },
   unsubscribeFromTicker(tickers, currency) {
     postMessage({ type: "TICKER_UNSUBSCRIBE", data: { tickers, currency } });
-  }
+  },
 };
 
 function onMessage(event) {
@@ -32,7 +32,7 @@ export const init = () => {
   subscribeToBtc();
 };
 
-const getTickerSubscribedCurrencies = ticker => {
+const getTickerSubscribedCurrencies = (ticker) => {
   const tickerHandlersByCurrency = tickersHandlers.get(ticker);
   if (!tickerHandlersByCurrency) return [];
   return Object.keys(tickerHandlersByCurrency);
@@ -43,12 +43,12 @@ const addTickerHandler = (ticker, currency = "USD", events) => {
 
   tickersHandlers.set(ticker, {
     ...(tickerHandlersByCurrency || {}),
-    [currency]: events
+    [currency]: events,
   });
 };
 
 const removeTickerHandlers = (ticker, currencies = ["USD"]) => {
-  const deleteHandler = currency => {
+  const deleteHandler = (currency) => {
     const tickerHandlersByCurrency = tickersHandlers.get(ticker);
 
     if (!tickerHandlersByCurrency || !tickerHandlersByCurrency[currency])
@@ -65,11 +65,11 @@ const removeTickerHandlers = (ticker, currencies = ["USD"]) => {
   if (currencies.length === 0) {
     tickersHandlers.delete(ticker);
   } else {
-    currencies.forEach(currency => deleteHandler(currency));
+    currencies.forEach((currency) => deleteHandler(currency));
   }
 };
 
-const convertPriceFromBtc = price => {
+const convertPriceFromBtc = (price) => {
   if (!btcUsdRate.value) return null;
   return btcUsdRate.value * price;
 };
@@ -119,7 +119,7 @@ export const subscribeToBtc = () => {
     {
       onUpdate: (ticker, value) => {
         btcUsdRate.value = value;
-      }
+      },
     },
     "USD"
   );
@@ -145,18 +145,18 @@ export const subscribeToTicker = (ticker, { onUpdate, onError }, currency) => {
 };
 
 export const unsubscribeFromTickers = (tickers, currencies = []) => {
-  tickers = tickers.filter(ticker => ticker !== "BTC");
+  tickers = tickers.filter((ticker) => ticker !== "BTC");
 
   if (!tickers.length) return;
 
-  tickers.forEach(ticker => {
+  tickers.forEach((ticker) => {
     if (currencies.length === 0) {
       const tickerCurrencies = getTickerSubscribedCurrencies(ticker);
-      tickerCurrencies.forEach(currency =>
+      tickerCurrencies.forEach((currency) =>
         transport.unsubscribeFromTicker(tickers, currency)
       );
     } else {
-      currencies.forEach(currency =>
+      currencies.forEach((currency) =>
         transport.unsubscribeFromTicker(tickers, currency)
       );
     }
@@ -170,11 +170,11 @@ export const unsubscribeFromTicker = (ticker, currencies = []) => {
 
   if (currencies.length === 0) {
     const tickerCurrencies = getTickerSubscribedCurrencies(ticker);
-    tickerCurrencies.forEach(currency =>
+    tickerCurrencies.forEach((currency) =>
       transport.unsubscribeFromTicker([ticker], currency)
     );
   } else {
-    currencies.forEach(currency =>
+    currencies.forEach((currency) =>
       transport.unsubscribeFromTicker([ticker], currency)
     );
   }

@@ -5,9 +5,15 @@
       <div
         v-for="ticker in pinnedTickers"
         v-bind:key="ticker.id"
-        class="overflow-hidden shadow rounded-lg border-purple-800 border-solid cursor-pointer"
+        class="
+          overflow-hidden
+          shadow
+          rounded-lg
+          border-purple-800 border-solid
+          cursor-pointer
+        "
         :class="{
-          'border-4': isTickerSelected(ticker)
+          'border-4': isTickerSelected(ticker),
         }"
         @click="selectTicker(ticker)"
       >
@@ -24,7 +30,23 @@
         </div>
         <div class="w-full border-t border-gray-200"></div>
         <button
-          class="flex items-center justify-center font-medium w-full bg-gray-100 px-4 py-4 sm:px-6 text-md text-gray-500 hover:text-gray-600 hover:bg-gray-200 hover:opacity-20 transition-all focus:outline-none"
+          class="
+            flex
+            items-center
+            justify-center
+            font-medium
+            w-full
+            bg-gray-100
+            px-4
+            py-4
+            sm:px-6
+            text-md text-gray-500
+            hover:text-gray-600
+            hover:bg-gray-200
+            hover:opacity-20
+            transition-all
+            focus:outline-none
+          "
           @click.stop="unpinTicker(ticker)"
         >
           <svg
@@ -64,7 +86,7 @@ export default {
     isTickerSelected(ticker) {
       if (!this.selectedTicker) return false;
       return ticker.id === this.selectedTicker.id;
-    }
-  }
+    },
+  },
 };
 </script>

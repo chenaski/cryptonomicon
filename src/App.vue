@@ -42,7 +42,7 @@ import {
   init,
   subscribeToTicker,
   subscribeToTickers,
-  unsubscribeFromTickers
+  unsubscribeFromTickers,
 } from "./api";
 import CreateTicker from "@/components/CreateTicker";
 import AppLoader from "@/components/AppLoader";
@@ -64,7 +64,7 @@ export default {
     AppPagination,
     FilterInput,
     PinnedTickers,
-    TickerGraph
+    TickerGraph,
   },
 
   data() {
@@ -78,7 +78,7 @@ export default {
       selectedTickerGraph: [],
 
       page: 1,
-      itemsPerPage: 6
+      itemsPerPage: 6,
     };
   },
 
@@ -91,14 +91,14 @@ export default {
 
   unmounted() {
     this.unsubscribeFromTickers(
-      this.pinnedTickers.map(ticker => ticker.symbol)
+      this.pinnedTickers.map((ticker) => ticker.symbol)
     );
     this.clearGraph();
   },
 
   computed: {
     filteredTickers() {
-      return this.pinnedTickers.filter(ticker =>
+      return this.pinnedTickers.filter((ticker) =>
         ticker.symbol
           .toLowerCase()
           .includes(this.tickerFilterInput.toLowerCase())
@@ -110,7 +110,7 @@ export default {
       const to = this.page * this.itemsPerPage;
 
       return this.filteredTickers.slice(from, to);
-    }
+    },
   },
 
   watch: {
@@ -123,18 +123,18 @@ export default {
     },
     page() {
       this.updateUrlParams({ page: this.page });
-    }
+    },
   },
 
   methods: {
     async getAllTickers() {
-      const tickers = await fetch(GET_ALL_TICKERS_URL).then(response =>
+      const tickers = await fetch(GET_ALL_TICKERS_URL).then((response) =>
         response.json()
       );
-      this.allTickers = Object.values(tickers.Data).map(ticker => ({
+      this.allTickers = Object.values(tickers.Data).map((ticker) => ({
         id: ticker.Id,
         name: ticker.FullName,
-        symbol: ticker.Symbol
+        symbol: ticker.Symbol,
       }));
     },
 
@@ -146,13 +146,13 @@ export default {
     unpinTicker(tickerToUnpin) {
       this.unsubscribeFromTickers([tickerToUnpin]);
       this.pinnedTickers = this.pinnedTickers.filter(
-        ticker => ticker.id !== tickerToUnpin.id
+        (ticker) => ticker.id !== tickerToUnpin.id
       );
       this.clearGraph();
     },
 
     updateTicker(tickerId, newTicker) {
-      this.pinnedTickers = this.pinnedTickers.map(ticker => {
+      this.pinnedTickers = this.pinnedTickers.map((ticker) => {
         if (tickerId !== ticker.id) return ticker;
         return newTicker;
       });
@@ -174,7 +174,7 @@ export default {
 
     isTickerExists(ticker) {
       return this.pinnedTickers.find(
-        existedTicker => existedTicker.symbol === ticker.symbol
+        (existedTicker) => existedTicker.symbol === ticker.symbol
       );
     },
 
@@ -189,17 +189,17 @@ export default {
     subscribeToTicker(ticker) {
       subscribeToTicker(ticker.symbol, {
         onUpdate: this.onUpdateTicker,
-        onError: this.onUpdateTickerError
+        onError: this.onUpdateTickerError,
       });
     },
 
     unsubscribeFromTickers(tickers) {
-      unsubscribeFromTickers(tickers.map(ticker => ticker.symbol));
+      unsubscribeFromTickers(tickers.map((ticker) => ticker.symbol));
     },
 
     onUpdateTicker(tickerSymbol, nextValue) {
       const ticker = this.pinnedTickers.find(
-        ticker => ticker.symbol === tickerSymbol
+        (ticker) => ticker.symbol === tickerSymbol
       );
 
       if (!ticker || !nextValue) return;
@@ -214,14 +214,15 @@ export default {
 
     onUpdateTickerError(tickerSymbol) {
       const ticker = this.pinnedTickers.find(
-        ticker => ticker.symbol === tickerSymbol
+        (ticker) => ticker.symbol === tickerSymbol
       );
       if (!ticker) return;
       this.setTickerError(ticker);
     },
 
     getMaxGraphItemsCount() {
-      const graphContainerWidth = this.$refs.graphContainer.getGraphContainerWidth();
+      const graphContainerWidth =
+        this.$refs.graphContainer.getGraphContainerWidth();
       const graphItemWidth = this.$refs.graphContainer.getGraphItemWidth();
 
       if (!graphContainerWidth || !graphItemWidth) return 0;
@@ -239,7 +240,7 @@ export default {
             currentItemsCount - maxItemsCount + 1,
             currentItemsCount
           ),
-          value
+          value,
         ];
       } else {
         this.selectedTickerGraph = [...this.selectedTickerGraph, value];
@@ -258,7 +259,7 @@ export default {
             id,
             name,
             value,
-            symbol
+            symbol,
           }))
         )
       );
@@ -272,13 +273,13 @@ export default {
 
         if (!storedTickers) return;
 
-        this.pinnedTickers = storedTickers.filter(ticker => !!ticker?.symbol);
+        this.pinnedTickers = storedTickers.filter((ticker) => !!ticker?.symbol);
 
         subscribeToTickers(
-          this.pinnedTickers.map(ticker => ({
+          this.pinnedTickers.map((ticker) => ({
             ticker: ticker.symbol,
             onUpdate: this.onUpdateTicker,
-            onError: this.onUpdateTickerError
+            onError: this.onUpdateTickerError,
           }))
         );
       } catch (e) {
@@ -300,7 +301,7 @@ export default {
 
       const paramsString = [
         filterParam ? `filter=${filterParam}` : null,
-        pageParam ? `page=${pageParam}` : null
+        pageParam ? `page=${pageParam}` : null,
       ]
         .filter(Boolean)
         .join("&");
@@ -317,7 +318,7 @@ export default {
 
       this.page = +page || 1;
       this.tickerFilterInput = filter || "";
-    }
-  }
+    },
+  },
 };
 </script>

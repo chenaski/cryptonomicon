@@ -10,7 +10,18 @@
             type="text"
             name="wallet"
             id="wallet"
-            class="block w-full pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md"
+            class="
+              block
+              w-full
+              pr-10
+              border-gray-300
+              text-gray-900
+              focus:outline-none
+              focus:ring-gray-500
+              focus:border-gray-500
+              sm:text-sm
+              rounded-md
+            "
             placeholder="Например DOGE"
             :value="tickerInput"
             @input="onChangeInput"
@@ -24,7 +35,18 @@
           <span
             v-for="ticker in similarTickers"
             v-bind:key="ticker.id"
-            class="inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 cursor-pointer"
+            class="
+              inline-flex
+              items-center
+              px-2
+              m-1
+              rounded-md
+              text-xs
+              font-medium
+              bg-gray-300
+              text-gray-800
+              cursor-pointer
+            "
             @click="addTicker(ticker)"
           >
             {{ ticker.name }}
@@ -37,7 +59,26 @@
     </div>
     <button
       type="button"
-      class="mt-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      class="
+        mt-4
+        inline-flex
+        items-center
+        py-2
+        px-4
+        border border-transparent
+        shadow-sm
+        text-sm
+        leading-4
+        font-medium
+        rounded-full
+        text-white
+        bg-gray-600
+        hover:bg-gray-700
+        transition-colors
+        duration-300
+        focus:outline-none
+        focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
+      "
       @click="addTickerByInput"
     >
       <!-- Heroicon name: solid/mail -->
@@ -64,7 +105,7 @@ export default {
     return {
       tickerInput: "",
       similarTickers: [],
-      isTickerExistsError: false
+      isTickerExistsError: false,
     };
   },
 
@@ -82,16 +123,16 @@ export default {
       }
 
       this.similarTickers = this.tickers
-        .filter(ticker => ticker.symbol.toLowerCase().includes(tickerName))
+        .filter((ticker) => ticker.symbol.toLowerCase().includes(tickerName))
         .slice(0, 4);
-    }
+    },
   },
 
   methods: {
     addTickerByInput() {
       const tickerSymbol = this.tickerInput.toLowerCase();
       const tickerToAdd = this.tickers.find(
-        ticker => ticker.symbol.toLowerCase() === tickerSymbol
+        (ticker) => ticker.symbol.toLowerCase() === tickerSymbol
       );
 
       if (!tickerToAdd) return;
@@ -117,7 +158,7 @@ export default {
     onChangeInput(e) {
       this.tickerInput = e.target.value;
       this.isTickerExistsError = false;
-    }
-  }
+    },
+  },
 };
 </script>

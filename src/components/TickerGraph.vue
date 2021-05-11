@@ -53,7 +53,7 @@ export default {
       },
       set(value) {
         this.$emit("update:modelValue", value);
-      }
+      },
     },
 
     normalizedGraph() {
@@ -61,9 +61,9 @@ export default {
       const maxValue = Math.max(...this.selectedTickerGraph);
 
       return this.selectedTickerGraph.map(
-        value => ((value - minValue) * 100) / (maxValue - minValue)
+        (value) => ((value - minValue) * 100) / (maxValue - minValue)
       );
-    }
+    },
   },
 
   methods: {
@@ -85,7 +85,7 @@ export default {
         : this.graphItemWidth;
 
       return this.graphItemWidth;
-    }
-  }
+    },
+  },
 };
 </script>
