@@ -35,6 +35,8 @@
       @closeGraph="unselectTicker"
     ></ticker-graph>
   </div>
+
+  <app-notification with-confirm="true"></app-notification>
 </template>
 
 <script>
@@ -50,6 +52,7 @@ import AppPagination from "@/components/AppPagination";
 import FilterInput from "@/components/FilterInput";
 import PinnedTickers from "@/components/PinnedTickers";
 import TickerGraph from "@/components/TickerGraph";
+import AppNotification from "@/components/AppNotification";
 
 const TICKERS_STORE_KEY = "tickers";
 const GET_ALL_TICKERS_URL =
@@ -59,6 +62,7 @@ export default {
   name: "App",
 
   components: {
+    AppNotification,
     CreateTicker,
     AppLoader,
     AppPagination,
