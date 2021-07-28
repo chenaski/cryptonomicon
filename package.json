@@ -28,7 +28,7 @@
     "postcss": "8.3.6",
     "prettier": "2.3.2",
     "simple-git-hooks": "2.5.1",
-    "tailwindcss": "2.1.2"
+    "tailwindcss": "2.2.7"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
